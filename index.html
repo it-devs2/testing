@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -281,13 +281,20 @@ nav button:hover {
 }
 
 .card:hover img {
- transform:scale(1.05);
+ transform:scale(1.08);
 }
 
 .card img {
  width:100%;
- height:165px;
- object-fit:cover;
+ height:220px;
+ display:block;
+ object-fit:contain;
+ object-position:center;
+ background:#000;
+ border:0;
+ border-radius:0;
+ box-shadow:none;
+ filter:contrast(1.08) saturate(1.08);
 }
 
 .card-info {
@@ -887,7 +894,7 @@ footer p {
  }
 
  .card img {
-  height:120px;
+  height:175px;
  }
 
  .card-info {
@@ -1106,7 +1113,7 @@ placeholder="เช่น ไม่ใส่ผัก เพิ่มไข่ �
 ← กลับไปตะกร้า
 </button>
 
-<h2 class="title" style="margin-top:20px">💗 ชำระเงิน</h2>
+<h2 class="title" style="margin-top:20px">💳 ชำระเงิน</h2>
 
 <div class="panel">
 
@@ -1150,7 +1157,7 @@ onclick="selectPay('qr')">
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MORI-DEMO"
 alt="QR Code">
 
-<p>QR Code ตัวอย่างสำหรับทดสอบเท่านั้น</p>
+
 
 </div>
 
@@ -1392,11 +1399,11 @@ const defaultMenus = [
 {
 id:1,
 name:"Tonkotsu Ramen",
-thai:"ทงคตสึราเมง",
+thai:"ทงคตสึ",
 desc:"ราเมงน้ำซุปกระดูกหมูเข้มข้น พร้อมหมูชาชู ไข่ต้ม และต้นหอม",
 price:159,
-cat:"เส้น",
-img:"menu_images/tonkotsu_ramen.jpg"
+cat:"ข้าว",
+img:"menu_images/tonkotsu_ramen.png"
 },
 
 {
@@ -1406,7 +1413,7 @@ thai:"ซูชิแซลมอน",
 desc:"ข้าวญี่ปุ่นปั้นพอดีคำ ท็อปด้วยปลาแซลมอนสด",
 price:129,
 cat:"ซูชิ",
-img:"menu_images/salmon_sushi.jpg"
+img:"menu_images/salmon_sushi.png"
 },
 
 {
@@ -1416,7 +1423,7 @@ thai:"กุ้งเทมปุระ",
 desc:"กุ้งสดชุบแป้งทอดกรอบ เสิร์ฟพร้อมน้ำจิ้มเทมปุระ",
 price:119,
 cat:"ทานเล่น",
-img:"menu_images/ebi_tempura.jpg"
+img:"menu_images/ebi_tempura.png"
 },
 
 {
@@ -1426,7 +1433,7 @@ thai:"เกี๊ยวซ่าญี่ปุ่น",
 desc:"เกี๊ยวซ่าไส้หมูและผัก ทอดจนด้านล่างกรอบหอม",
 price:89,
 cat:"ทานเล่น",
-img:"menu_images/japanese_gyoza.jpg"
+img:"menu_images/japanese_gyoza.png"
 },
 
 {
@@ -1436,7 +1443,7 @@ thai:"ยากิอุด้ง",
 desc:"เส้นอุด้งผัดซอสญี่ปุ่น เสิร์ฟพร้อมผักและเนื้อสัตว์",
 price:139,
 cat:"เส้น",
-img:"menu_images/yaki_udon.jpg"
+img:"menu_images/yaki_udon.png"
 },
 
 {
@@ -1446,7 +1453,7 @@ thai:"โชยุราเมง",
 desc:"ราเมงน้ำซุปโชยุหอมกลมกล่อม พร้อมหมูชาชูและไข่ต้ม",
 price:149,
 cat:"เส้น",
-img:"menu_images/shoyu_ramen.jpg"
+img:"menu_images/shoyu_ramen.png"
 },
 
 {
@@ -1456,7 +1463,7 @@ thai:"ซูชิปลาไหล",
 desc:"ข้าวปั้นหน้าปลาไหลย่างซอสญี่ปุ่น หอมหวานเค็ม",
 price:149,
 cat:"ซูชิ",
-img:"menu_images/unagi_sushi.jpg"
+img:"menu_images/unagi_sushi.png"
 },
 
 {
@@ -1466,7 +1473,7 @@ thai:"ไก่คาราอาเกะ",
 desc:"ไก่หมักเครื่องเทศญี่ปุ่นทอดกรอบ เนื้อนุ่มฉ่ำ",
 price:99,
 cat:"ทานเล่น",
-img:"menu_images/chicken_karaage.jpg"
+img:"menu_images/chicken_karaage.png"
 },
 
 {
@@ -1476,7 +1483,7 @@ thai:"ข้าวหน้าปลาแซลมอน",
 desc:"ข้าวญี่ปุ่นเสิร์ฟพร้อมปลาแซลมอนและซอสสูตรพิเศษ",
 price:169,
 cat:"ข้าว",
-img:"menu_images/salmon_don.jpg"
+img:"menu_images/salmon_don.png"
 },
 
 {
@@ -1486,7 +1493,7 @@ thai:"ข้าวหน้าหมูทอดทงคัตสึ",
 desc:"ข้าวญี่ปุ่นหน้าหมูทอดกรอบ ราดซอสทงคัตสึเข้มข้น",
 price:139,
 cat:"ข้าว",
-img:"menu_images/tonkatsu_don.jpg"
+img:"menu_images/tonkatsu_don.png"
 }
 
 ];
@@ -1502,6 +1509,43 @@ if (_saved && _saved[0] && _saved[0].img && _saved[0].img.includes("unsplash")) 
   _saved = null;
 }
 let menus = _saved || defaultMenus;
+
+let menuDataUpdated=false;
+let tonkotsuMenu = menus.find(m=>m.id===1 && m.name==="Tonkotsu Ramen");
+if(tonkotsuMenu) {
+ if(tonkotsuMenu.thai==="ทงคตสึราเมง") {
+  tonkotsuMenu.thai="ทงคตสึ";
+  menuDataUpdated=true;
+ }
+
+ if(tonkotsuMenu.cat==="เส้น") {
+  tonkotsuMenu.cat="ข้าว";
+  menuDataUpdated=true;
+ }
+}
+
+let menuImagePathUpdates={
+ "menu_images/tonkotsu_ramen.jpg":"menu_images/tonkotsu_ramen.png",
+ "menu_images/salmon_sushi.jpg":"menu_images/salmon_sushi.png",
+ "menu_images/ebi_tempura.jpg":"menu_images/ebi_tempura.png",
+ "menu_images/japanese_gyoza.jpg":"menu_images/japanese_gyoza.png",
+ "menu_images/yaki_udon.jpg":"menu_images/yaki_udon.png",
+ "menu_images/shoyu_ramen.jpg":"menu_images/shoyu_ramen.png",
+ "menu_images/unagi_sushi.jpg":"menu_images/unagi_sushi.png",
+ "menu_images/chicken_karaage.jpg":"menu_images/chicken_karaage.png",
+ "menu_images/salmon_don.jpg":"menu_images/salmon_don.png",
+ "menu_images/tonkatsu_don.jpg":"menu_images/tonkatsu_don.png"
+};
+menus.forEach(m=>{
+ if(menuImagePathUpdates[m.img]) {
+  m.img=menuImagePathUpdates[m.img];
+  menuDataUpdated=true;
+ }
+});
+
+if(menuDataUpdated) {
+ localStorage.setItem("moriMenus",JSON.stringify(menus));
+}
 
 let cart = JSON.parse(localStorage.getItem("moriCart")) || {};
 
@@ -2303,6 +2347,7 @@ selectPay("cash");
 
 </body>
 </html>
+
 
 
 
