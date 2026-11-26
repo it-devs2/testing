@@ -138,6 +138,100 @@ nav button:hover {
  background:#f5e5df;
 }
 
+.cart-nav.is-bumping {
+ animation:cart-bump .45s ease;
+}
+
+.toast {
+ position:fixed;
+ z-index:200;
+ left:50%;
+ bottom:calc(20px + env(safe-area-inset-bottom));
+ width:max-content;
+ max-width:calc(100vw - 32px);
+ padding:13px 20px;
+ border-radius:999px;
+ background:var(--dark);
+ color:white;
+ text-align:center;
+ font-size:13px;
+ font-weight:bold;
+ box-shadow:0 8px 24px #38271f35;
+ opacity:0;
+ visibility:hidden;
+ pointer-events:none;
+ transform:translate(-50%,12px);
+ transition:opacity .25s ease, transform .25s ease, visibility .25s ease;
+}
+
+.toast.is-visible {
+ opacity:1;
+ visibility:visible;
+ transform:translate(-50%,0);
+}
+
+.order-accepted-toast {
+ position:fixed;
+ z-index:210;
+ top:calc(16px + env(safe-area-inset-top));
+ right:16px;
+ display:flex;
+ align-items:center;
+ gap:11px;
+ max-width:calc(100vw - 32px);
+ padding:12px 17px;
+ border:1px solid #cfe7d7;
+ border-radius:14px;
+ background:#e9f4ed;
+ color:#287650;
+ font-size:14px;
+ font-weight:bold;
+ box-shadow:0 8px 24px #28765025;
+ opacity:0;
+ visibility:hidden;
+ pointer-events:none;
+ transform:translateX(calc(100% + 24px));
+}
+
+.order-accepted-toast.is-visible {
+ visibility:visible;
+ animation:order-accepted-enter .45s cubic-bezier(.16,1,.3,1) both;
+}
+
+.order-accepted-toast.is-hiding {
+ visibility:visible;
+ animation:order-accepted-exit .3s ease-in both;
+}
+
+.order-accepted-toast-icon {
+ width:34px;
+ height:34px;
+ display:grid;
+ place-items:center;
+ flex:0 0 34px;
+ border-radius:50%;
+ background:#d3eadb;
+}
+
+.order-accepted-toast-icon svg {
+ width:22px;
+ height:22px;
+}
+
+.order-accepted-toast-check {
+ fill:none;
+ stroke:currentColor;
+ stroke-width:3.5;
+ stroke-linecap:round;
+ stroke-linejoin:round;
+ stroke-dasharray:30;
+ stroke-dashoffset:30;
+}
+
+.order-accepted-toast.is-visible .order-accepted-toast-check {
+ animation:order-accepted-check .35s .2s ease forwards;
+}
+
 .staff-nav {
  background:var(--brown);
  color:white;
@@ -276,12 +370,18 @@ nav button:hover {
 }
 
 .card:hover {
- transform:translateY(-6px);
- box-shadow:0 8px 20px #67493615;
+ transform:translateY(-7px) scale(1.015);
+ box-shadow:0 12px 26px #67493620;
 }
 
-.card:hover img {
- transform:scale(1.08);
+.card:focus-within {
+ transform:translateY(-4px);
+ box-shadow:0 8px 20px #67493620;
+}
+
+.card:hover img,
+.card:focus-within img {
+ transform:scale(1.1);
 }
 
 .card img {
@@ -595,6 +695,40 @@ label {
  padding:45px 20px;
 }
 
+.success-check {
+ width:76px;
+ height:76px;
+ display:grid;
+ place-items:center;
+ margin:0 auto 20px;
+ border-radius:50%;
+ background:#e9f4ed;
+ color:#287650;
+}
+
+.success-check svg {
+ width:42px;
+ height:42px;
+}
+
+.success-checkmark {
+ fill:none;
+ stroke:currentColor;
+ stroke-width:5;
+ stroke-linecap:round;
+ stroke-linejoin:round;
+ stroke-dasharray:40;
+ stroke-dashoffset:40;
+}
+
+#success.active .success-check {
+ animation:success-check-enter .65s cubic-bezier(.16,1,.3,1) both;
+}
+
+#success.active .success-checkmark {
+ animation:success-check-draw .4s .35s ease forwards;
+}
+
 .success .logo {
  width:145px;
  height:145px;
@@ -710,6 +844,23 @@ label {
  background:#ffffff20;
 }
 
+.sidebar button.active {
+ background:var(--cream);
+ color:var(--dark);
+ font-weight:bold;
+}
+
+.sidebar-order-count {
+ float:right;
+ min-width:24px;
+ padding:2px 7px;
+ border-radius:999px;
+ background:#e49856;
+ color:white;
+ text-align:center;
+ font-size:11px;
+}
+
 .stats {
  display:grid;
  grid-template-columns:repeat(3,1fr);
@@ -749,6 +900,41 @@ label {
  color:#99877b;
 }
 
+.order-tabs {
+ display:flex;
+ gap:8px;
+ margin:16px 0;
+}
+
+.order-tab {
+ padding:10px 16px;
+ border:1px solid #eadbd0;
+ border-radius:12px;
+ background:white;
+ color:var(--brown);
+}
+
+.order-tab.active {
+ border-color:var(--brown);
+ background:var(--brown);
+ color:white;
+}
+
+.order-status {
+ display:inline-block;
+ margin-top:10px;
+ padding:6px 10px;
+ border-radius:999px;
+ background:#fff3e5;
+ color:#99622e;
+ font-size:12px;
+}
+
+.order-status.accepted {
+ background:#e9f4ed;
+ color:#287650;
+}
+
 .staff-row {
  display:flex;
  justify-content:space-between;
@@ -758,6 +944,15 @@ label {
  padding:13px;
  border-radius:12px;
  margin:10px 0;
+}
+
+.staff-row > span { min-width:0; }
+
+.staff-row-actions {
+ display:flex;
+ align-items:center;
+ gap:8px;
+ flex-shrink:0;
 }
 
 .empty {
@@ -814,8 +1009,35 @@ footer p {
 }
 
 @keyframes card-enter {
- from { opacity:0; transform:translateY(12px); }
+ from { opacity:0; transform:translateY(14px) scale(.98); }
  to { opacity:1; transform:translateY(0); }
+}
+
+@keyframes cart-bump {
+ 35% { transform:scale(1.12); }
+ 65% { transform:scale(.96); }
+}
+
+@keyframes success-check-enter {
+ from { opacity:0; transform:translateX(-42px) scale(.7) rotate(-12deg); }
+ to { opacity:1; transform:translateX(0) scale(1) rotate(0); }
+}
+
+@keyframes success-check-draw {
+ to { stroke-dashoffset:0; }
+}
+
+@keyframes order-accepted-enter {
+ from { opacity:0; transform:translateX(calc(100% + 24px)); }
+ to { opacity:1; transform:translateX(0); }
+}
+
+@keyframes order-accepted-exit {
+ to { opacity:0; transform:translateX(calc(100% + 24px)); }
+}
+
+@keyframes order-accepted-check {
+ to { stroke-dashoffset:0; }
 }
 
 @keyframes login-bg-drift {
@@ -930,6 +1152,31 @@ footer p {
   height:65px;
  }
 }
+.sales-simulation {
+ margin-top:24px;
+}
+
+.sales-period-buttons {
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin:12px 0;
+}
+
+.sales-period-buttons button.active {
+ background:var(--brown);
+ color:white;
+}
+
+.sales-simulation-note {
+ color:#958276;
+ font-size:12px;
+ margin-bottom:10px;
+}
+
+.sales-simulation .panel {
+ margin-top:14px;
+}
 </style>
 </head>
 
@@ -967,6 +1214,16 @@ footer p {
 </nav>
 
 </header>
+
+<div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+<div id="orderAcceptedToast" class="order-accepted-toast" role="status" aria-live="polite" aria-atomic="true" aria-hidden="true">
+<span class="order-accepted-toast-icon" aria-hidden="true">
+<svg viewBox="0 0 24 24" focusable="false">
+<path class="order-accepted-toast-check" d="m4 12.5 5.2 5.2L20 6.8"></path>
+</svg>
+</span>
+<span>รับออเดอร์เรียบร้อยแล้ว</span>
+</div>
 
 <!-- หน้าแรก -->
 
@@ -1179,6 +1436,12 @@ alt="QR Code">
 
 <div class="panel success">
 
+<div class="success-check" aria-hidden="true">
+<svg viewBox="0 0 48 48" focusable="false">
+<path class="success-checkmark" d="m12 25 8 8 17-18"></path>
+</svg>
+</div>
+
 <img class="logo" src="./logo.jpg?v=header1" alt="MORI Japanese Restaurant">
 
 <h2 style="color:#674936;margin:15px">
@@ -1258,10 +1521,10 @@ alt="QR Code">
 
 <h3>MORI ADMIN</h3>
 
-<button onclick="staffTab('dashboard')">📊 ภาพรวม</button>
-<button onclick="staffTab('sales')">💰 ยอดขาย</button>
-<button onclick="staffTab('orders')">📦 ออเดอร์</button>
-<button onclick="staffTab('productsStaff')">🍜 จัดการสินค้า</button>
+<button id="staffNavDashboard" onclick="staffTab('dashboard')">📊 ภาพรวม</button>
+<button id="staffNavSales" onclick="staffTab('sales')">💰 ยอดขาย</button>
+<button id="staffNavOrders" onclick="staffTab('orders')">🔔 รับออเดอร์ <span id="sidebarOrderCount" class="sidebar-order-count">0</span></button>
+<button id="staffNavProductsStaff" onclick="staffTab('productsStaff')">🍜 จัดการสินค้า</button>
 <button onclick="go('home')">ออกจากระบบ</button>
 
 </aside>
@@ -1314,10 +1577,25 @@ alt="QR Code">
 <div id="salesMenu"></div>
 
 </div>
+
+<div class="sales-simulation">
+ <h3>รายการเมนูตามช่วงเวลา</h3>
+ <p class="sales-simulation-note">ข้อมูลด้านล่างเป็นรายการจำลอง แยกจากยอดขายจริงด้านบน</p>
+ <div class="sales-period-buttons">
+  <button class="btn btn-light active" data-months="3" onclick="renderSalesSimulation(3)">ช่วง 3 เดือน</button>
+  <button class="btn btn-light" data-months="5" onclick="renderSalesSimulation(5)">ช่วง 5 เดือน</button>
+  <button class="btn btn-light" data-months="12" onclick="renderSalesSimulation(12)">ช่วงตลอดปี</button>
+ </div>
+ <div class="panel" id="simulatedSalesMenu"></div>
+</div>
 </div>
 
 <div id="ordersTab" style="display:none">
-<h3>📦 รายการออเดอร์</h3>
+<h3>🔔 รายการรับออเดอร์</h3>
+<div class="order-tabs" role="tablist" aria-label="สถานะออเดอร์">
+<button id="newOrdersTab" class="order-tab" role="tab" onclick="setOrderFilter('new')">ออเดอร์ใหม่ <span id="newOrdersCount">(0)</span></button>
+<button id="acceptedOrdersTab" class="order-tab" role="tab" onclick="setOrderFilter('accepted')">รับแล้ว <span id="acceptedOrdersCount">(0)</span></button>
+</div>
 <div id="ordersList"></div>
 </div>
 
@@ -1352,7 +1630,8 @@ alt="QR Code">
 
 <br><br>
 
-<button class="btn" onclick="addProduct()">+ เพิ่มสินค้า</button>
+<button id="productSubmitButton" class="btn" onclick="addProduct()">+ เพิ่มสินค้า</button>
+<button id="cancelEditButton" class="btn btn-light" onclick="cancelProductEdit()" style="display:none">ยกเลิก</button>
 
 </div>
 
@@ -1558,6 +1837,26 @@ let category = "ทั้งหมด";
 let payMethod = "cash";
 let checkoutTable = "";
 let staff = "";
+let toastTimer;
+let orderAcceptedTimer;
+let orderAcceptedHideTimer;
+let menuSoundContext = null;
+let menuSoundReady = false;
+let editingProductId = null;
+let orderFilter = "new";
+
+window.addEventListener("storage",event=>{
+ if(event.key!=="moriOrders") return;
+
+ orders=JSON.parse(event.newValue||"[]");
+ dashboard();
+
+ let ordersTab=document.getElementById("ordersTab");
+ if(document.getElementById("staff").classList.contains("active") &&
+    ordersTab.style.display!=="none") {
+  renderOrders();
+ }
+});
 
 function save() {
  localStorage.setItem("moriMenus",JSON.stringify(menus));
@@ -1581,9 +1880,94 @@ function totalItems() {
  );
 }
 
-function updateCount() {
+function updateCount(animate=false) {
  document.getElementById("count").textContent=totalItems();
+
+ if(animate) {
+  let cartButton=document.querySelector(".cart-nav");
+  cartButton.classList.remove("is-bumping");
+  void cartButton.offsetWidth;
+  cartButton.classList.add("is-bumping");
+ }
 }
+
+function showToast(message) {
+ let toast=document.getElementById("toast");
+ toast.textContent=message;
+ toast.classList.add("is-visible");
+
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>{
+  toast.classList.remove("is-visible");
+ },2600);
+}
+
+function showOrderAcceptedToast() {
+ let toast=document.getElementById("orderAcceptedToast");
+ clearTimeout(orderAcceptedTimer);
+ clearTimeout(orderAcceptedHideTimer);
+ toast.classList.remove("is-visible","is-hiding");
+ toast.setAttribute("aria-hidden","false");
+ void toast.offsetWidth;
+ toast.classList.add("is-visible");
+
+ orderAcceptedTimer=setTimeout(()=>{
+  toast.classList.remove("is-visible");
+  toast.classList.add("is-hiding");
+  orderAcceptedHideTimer=setTimeout(()=>{
+   toast.classList.remove("is-hiding");
+   toast.setAttribute("aria-hidden","true");
+  },320);
+ },1800);
+}
+
+function unlockMenuSound() {
+ let AudioContextClass=window.AudioContext||window.webkitAudioContext;
+ if(!AudioContextClass) return;
+
+ menuSoundContext=new AudioContextClass();
+ if(menuSoundContext.state==="suspended") {
+  menuSoundContext.resume().then(()=>{
+   menuSoundReady=menuSoundContext.state==="running";
+  }).catch(error=>{
+   console.warn("Could not enable menu hover sound.",error);
+  });
+ } else {
+  menuSoundReady=true;
+ }
+}
+
+function playMenuHoverSound() {
+ if(!menuSoundReady||!menuSoundContext) return;
+
+ let now=menuSoundContext.currentTime;
+ let oscillator=menuSoundContext.createOscillator();
+ let volume=menuSoundContext.createGain();
+
+ oscillator.type="sine";
+ oscillator.frequency.setValueAtTime(720,now);
+ oscillator.frequency.exponentialRampToValueAtTime(920,now+.07);
+ volume.gain.setValueAtTime(.0001,now);
+ volume.gain.exponentialRampToValueAtTime(.025,now+.015);
+ volume.gain.exponentialRampToValueAtTime(.0001,now+.13);
+
+ oscillator.connect(volume);
+ volume.connect(menuSoundContext.destination);
+ oscillator.start(now);
+ oscillator.stop(now+.14);
+}
+
+document.addEventListener("pointerdown",unlockMenuSound,{once:true});
+document.addEventListener("keydown",unlockMenuSound,{once:true});
+document.addEventListener("pointerover",event=>{
+ let target=event.target;
+ if(!(target instanceof Element)) return;
+
+ let card=target.closest(".card");
+ if(!card||card.contains(event.relatedTarget)) return;
+
+ playMenuHoverSound();
+});
 
 /* =========================
    เปลี่ยนหน้า
@@ -1779,9 +2163,9 @@ function addCart() {
 
  save();
 
- updateCount();
+ updateCount(true);
 
- alert("เพิ่ม "+selected.thai+" ลง "+selectedTable+" เรียบร้อยแล้ว ♡");
+ showToast("เพิ่ม "+selected.thai+" ลง "+selectedTable+" เรียบร้อยแล้ว ♡");
 
  go("products");
 }
@@ -2025,7 +2409,7 @@ function confirmOrder() {
 
  method:payMethod,
 
- status:"เสร็จสิ้น",
+ status:"รอรับออเดอร์",
 
  date:new Date().toLocaleString("th-TH"),
 
@@ -2033,6 +2417,7 @@ function confirmOrder() {
 
  };
 
+ orders=JSON.parse(localStorage.getItem("moriOrders"))||orders;
  orders.push(newOrder);
 
  /* ล้างเฉพาะโต๊ะที่กำลังชำระเงิน */
@@ -2042,6 +2427,7 @@ function confirmOrder() {
  save();
 
  updateCount();
+ dashboard();
 
  document.getElementById("successNumber").textContent=
  "ORDER #"+orderId;
@@ -2113,13 +2499,18 @@ function staffTab(tab) {
  ["dashboard","sales","orders","productsStaff"].forEach(x=>{
   document.getElementById(x+"Tab").style.display=
   x===tab?"block":"none";
+  document.getElementById("staffNav"+x.charAt(0).toUpperCase()+x.slice(1))
+   .classList.toggle("active",x===tab);
  });
 
  if(tab==="dashboard") dashboard();
 
  if(tab==="sales") renderSales();
 
- if(tab==="orders") renderOrders();
+ if(tab==="orders") {
+  orderFilter="new";
+  renderOrders();
+ }
 
  if(tab==="productsStaff") renderStaffProducts();
 }
@@ -2137,20 +2528,50 @@ function dashboard() {
  orders.length;
 
  document.getElementById("pending").textContent=
- Object.values(cart).filter(x=>x.length>0).length;
+ orders.filter(o=>o.status==="รอรับออเดอร์").length;
+
+ document.getElementById("sidebarOrderCount").textContent=
+ orders.filter(o=>o.status==="รอรับออเดอร์").length;
 }
 
 /* =========================
    รายการออเดอร์
 ========================= */
 
+function setOrderFilter(filter) {
+ orderFilter=filter;
+ renderOrders();
+}
+
+function acceptOrder(orderId) {
+ let order=orders.find(o=>String(o.id)===String(orderId));
+ if(!order || order.status!=="รอรับออเดอร์") return;
+
+ order.status="รับออเดอร์แล้ว";
+ order.acceptedAt=new Date().toLocaleString("th-TH");
+ save();
+ dashboard();
+ renderOrders();
+ showOrderAcceptedToast();
+}
+
 function renderOrders() {
 
  let box=document.getElementById("ordersList");
+ let newOrders=orders.filter(o=>o.status==="รอรับออเดอร์");
+ let acceptedOrders=orders.filter(o=>o.status!=="รอรับออเดอร์");
+ let visibleOrders=orderFilter==="new"?newOrders:acceptedOrders;
 
- box.innerHTML=orders.length?
+ document.getElementById("newOrdersCount").textContent=`(${newOrders.length})`;
+ document.getElementById("acceptedOrdersCount").textContent=`(${acceptedOrders.length})`;
+ document.getElementById("newOrdersTab").classList.toggle("active",orderFilter==="new");
+ document.getElementById("acceptedOrdersTab").classList.toggle("active",orderFilter==="accepted");
+ document.getElementById("newOrdersTab").setAttribute("aria-selected",orderFilter==="new");
+ document.getElementById("acceptedOrdersTab").setAttribute("aria-selected",orderFilter==="accepted");
 
- orders.slice().reverse().map(o=>`
+ box.innerHTML=visibleOrders.length?
+
+ visibleOrders.slice().reverse().map(o=>`
 
  <div class="order-card">
 
@@ -2168,19 +2589,47 @@ function renderOrders() {
 
  <h3>ยอดรวม ${money(o.total)}</h3>
 
- <p>สถานะ: ${o.status}</p>
+ <span class="order-status ${o.status==="รอรับออเดอร์"?"":"accepted"}">สถานะ: ${o.status||"รับออเดอร์แล้ว"}</span>
+ ${o.status==="รอรับออเดอร์"?`
+ <div style="margin-top:14px">
+ <button class="btn btn-brown" onclick="acceptOrder('${o.id}')">✓ รับออเดอร์</button>
+ </div>
+ `:""}
 
  </div>
 
  `).join("")
 
- :"<div class='empty'>ยังไม่มีออเดอร์</div>";
+ :`<div class='empty'>${orderFilter==="new"?"ไม่มีออเดอร์ใหม่":"ยังไม่มีออเดอร์ที่รับแล้ว"}</div>`;
 }
 
 /* =========================
    รายงานยอดขาย
 ========================= */
 
+function renderSalesSimulation(months=3) {
+ months=Number(months);
+ if(![3,5,12].includes(months)) months=3;
+
+ const periodLabel=months===12?"ตลอดปี":"ช่วง "+months+" เดือน";
+ const sampleMonthlyQty=[18,12,15,9,14,11,10,16,8,13];
+ const rows=menus.map((menu,index)=>{
+  const qty=sampleMonthlyQty[index%sampleMonthlyQty.length]*months;
+  return {name:menu.thai,qty,total:qty*Number(menu.price||0)};
+ });
+
+ document.getElementById("simulatedSalesMenu").innerHTML=rows.length?`
+  <p class="sales-simulation-note">รายการเมนูจำลอง: ${periodLabel}</p>
+  <table>
+   <tr><th>เมนู</th><th>จำนวน</th><th>ยอดขายจำลอง</th></tr>
+   ${rows.map(item=>`<tr><td>${item.name}</td><td>${item.qty}</td><td>${money(item.total)}</td></tr>`).join("")}
+  </table>
+ `:"<p>ยังไม่มีรายการเมนู</p>";
+
+ document.querySelectorAll(".sales-period-buttons button").forEach(button=>{
+  button.classList.toggle("active",Number(button.dataset.months)===months);
+ });
+}
 function renderSales() {
 
  let selectedDates=salesDateRangePicker?.selectedDates||[];
@@ -2255,81 +2704,120 @@ function renderSales() {
 ========================= */
 
 function renderStaffProducts() {
-
- document.getElementById("staffProducts").innerHTML=
-
- menus.map(m=>`
-
- <div class="staff-row">
-
- <span>${m.thai} - ${money(m.price)}</span>
-
- <button onclick="deleteProduct(${m.id})"
- style="color:red;background:none">
- ลบ
- </button>
-
- </div>
-
+ document.getElementById("staffProducts").innerHTML=menus.map(m=>`
+  <div class="staff-row">
+   <span>${m.thai} - ${money(m.price)}</span>
+   <div class="staff-row-actions">
+    <button class="btn btn-light btn-small" onclick="editProduct(${m.id})">แก้ไข</button>
+    <button onclick="deleteProduct(${m.id})" style="color:red;background:none">ลบ</button>
+   </div>
+  </div>
  `).join("");
 }
 
-function addProduct() {
+function editProduct(id) {
+ let product=menus.find(m=>m.id===id);
+ if(!product) return;
+
+ editingProductId=id;
+ document.getElementById("newThai").value=product.thai||"";
+ document.getElementById("newName").value=product.name||"";
+ document.getElementById("newPrice").value=product.price||"";
+ document.getElementById("newDesc").value=product.desc||"";
+ document.getElementById("newImg").value=product.img||"";
+
+ let categorySelect=document.getElementById("newCat");
+ if(!Array.from(categorySelect.options).some(option=>option.value===product.cat)) {
+  let option=document.createElement("option");
+  option.value=product.cat;
+  option.textContent=product.cat;
+  categorySelect.appendChild(option);
+ }
+ categorySelect.value=product.cat||categorySelect.options[0].value;
+
+ let submitButton=document.getElementById("productSubmitButton");
+ submitButton.textContent="บันทึกการแก้ไข";
+ submitButton.setAttribute("onclick","saveProductEdit()");
+ document.getElementById("cancelEditButton").style.display="inline-block";
+ document.getElementById("newThai").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function resetProductForm() {
+ editingProductId=null;
+ ["newThai","newName","newPrice","newDesc","newImg"].forEach(id=>{
+  document.getElementById(id).value="";
+ });
+ let submitButton=document.getElementById("productSubmitButton");
+ submitButton.textContent="+ เพิ่มสินค้า";
+ submitButton.setAttribute("onclick","addProduct()");
+ document.getElementById("cancelEditButton").style.display="none";
+}
+
+function cancelProductEdit() {
+ resetProductForm();
+}
+
+function saveProductEdit() {
+ let product=menus.find(m=>m.id===editingProductId);
+ if(!product) {
+  cancelProductEdit();
+  return;
+ }
 
  let thai=document.getElementById("newThai").value.trim();
-
  let name=document.getElementById("newName").value.trim();
-
  let price=Number(document.getElementById("newPrice").value);
+ if(!thai||!name||price<=0) {
+  alert("กรุณากรอกชื่อเมนูและราคาที่ถูกต้อง");
+  return;
+ }
 
+ product.thai=thai;
+ product.name=name;
+ product.price=price;
+ product.desc=document.getElementById("newDesc").value.trim();
+ product.cat=document.getElementById("newCat").value;
+ product.img=document.getElementById("newImg").value.trim()||product.img;
+
+ save();
+ renderProducts();
+ renderStaffProducts();
+ resetProductForm();
+ alert("บันทึกการแก้ไขเมนูเรียบร้อย ♡");
+}
+
+function addProduct() {
+ let thai=document.getElementById("newThai").value.trim();
+ let name=document.getElementById("newName").value.trim();
+ let price=Number(document.getElementById("newPrice").value);
  if(!thai||!name||price<=0) {
   alert("กรุณากรอกข้อมูลให้ครบ");
   return;
  }
 
  menus.push({
-
- id:Date.now(),
-
- thai,
-
- name,
-
- price,
-
- desc:document.getElementById("newDesc").value,
-
- cat:document.getElementById("newCat").value,
-
- img:document.getElementById("newImg").value||
- "https://placehold.co/600x400/f4e8dc/604638?text=MORI"
-
+  id:Date.now(),
+  thai,
+  name,
+  price,
+  desc:document.getElementById("newDesc").value,
+  cat:document.getElementById("newCat").value,
+  img:document.getElementById("newImg").value||"https://placehold.co/600x400/f4e8dc/604638?text=MORI"
  });
 
  save();
-
  renderProducts();
-
  renderStaffProducts();
-
+ resetProductForm();
  alert("เพิ่มสินค้าเรียบร้อย ♡");
-
- ["newThai","newName","newPrice","newDesc","newImg"].forEach(id=>{
-  document.getElementById(id).value="";
- });
-
 }
 
 function deleteProduct(id) {
-
  if(!confirm("ต้องการลบสินค้านี้หรือไม่?")) return;
-
  menus=menus.filter(m=>m.id!==id);
-
+ if(editingProductId===id) resetProductForm();
  save();
-
  renderProducts();
-
  renderStaffProducts();
 }
 
@@ -2338,6 +2826,8 @@ function deleteProduct(id) {
 ========================= */
 
 renderProducts();
+
+renderSalesSimulation(3);
 
 updateCount();
 
